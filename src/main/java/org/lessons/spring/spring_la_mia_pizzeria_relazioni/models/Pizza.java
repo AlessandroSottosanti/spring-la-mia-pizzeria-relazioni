@@ -44,7 +44,7 @@ public class Pizza {
     private BigDecimal price = BigDecimal.ZERO;
 
 
-    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.REMOVE)
     private List<SpecialOffer> specialOffers;
     
     // Getter & Setter
