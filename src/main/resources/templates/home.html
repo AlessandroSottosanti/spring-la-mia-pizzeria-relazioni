@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to La Mia Pizzeria</title>
+    <th:block th:replace="~{fragments/resources :: bootstrap-head}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Welcome to La Mia Pizzeria! 🍕</h1>
+
+        <p class="text-center mb-4">Discover our delicious pizzas, made with love and fresh ingredients!</p>
+
+        <div class="text-center">
+            <a href="/menu" class="btn btn-primary btn-lg">View Menu</a>
+        </div>
+    </div>
+    <th:block th:replace="~{fragments/resources :: bootstrap-scripts}"></th:block>
+</body>
+</html>

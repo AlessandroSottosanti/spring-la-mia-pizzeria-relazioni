@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <th:block th:fragment="pizza-card">
+        <div class="card h-100" th:object="${pizza}">
+            <img th:src="@{'/images/pizzas/' + ${pizza.image}}" class="card-img-top" alt="Pizza image"
+                style="object-fit: cover; height: 200px;">
+
+            <div class="card-body">
+                <h5 class="card-title">[[*{name}]]</h5>
+                <p class="card-text">[[*{description}]]</p>
+            </div>
+
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <strong class="fs-5">€ [[*{price}]]</strong>
+                <div>
+                    <a th:href="@{'/menu/' + *{id}}" class="btn btn-success btn-sm">Details</a>
+                    <a th:href="@{'/menu/edit/' + *{id}}" class="btn btn-warning btn-sm">Edit</a>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal-' + *{id}">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+
+</html>

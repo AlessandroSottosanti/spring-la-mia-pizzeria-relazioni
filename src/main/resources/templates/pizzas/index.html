@@ -1,0 +1,81 @@
+<!-- src/main/resources/templates/menu.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Our Pizza Menu</title>
+    <th:block th:replace="~{fragments/resources :: bootstrap-head}"></th:block>
+    <style>
+        .card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+
+        .card-footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .card-title {
+            color: #495057;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <div class="container my-5">
+        <h1 class="text-center mb-4 text-dark">Our Delicious Pizza Menu 🍕</h1>
+
+        <!-- Search form -->
+        <form th:action="@{/menu}" method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" placeholder="Search by name or description..."
+                    th:value="${param.query}">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+
+        <a th:href="@{/menu/create}" class="btn btn-primary my-3">+ Add a new pizza to the menu</a>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="pizza : ${pizzas}">
+                <th:block th:replace="~{fragments/card :: pizza-card(pizza=${pizza})}"></th:block>
+
+                <th:block th:replace="~{fragments/delete-modal :: deleteModal(pizza=${pizza})}"></th:block>
+            </div>
+        </div>
+
+        <div th:if="${pizzas == null or #lists.isEmpty(pizzas)}" class="alert alert-info mt-4">
+            No pizzas available. Please check back later!
+        </div>
+    </div>
+
+    <th:block th:replace="~{fragments/resources :: bootstrap-scripts}"></th:block>
+</body>
+
+</html>
