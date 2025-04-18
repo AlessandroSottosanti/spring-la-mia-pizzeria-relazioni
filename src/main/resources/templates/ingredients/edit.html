@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ingredient</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <div class="container mt-4">
+        <h1>Edit Ingredient</h1>
+
+        <form th:action="@{/ingredients/edit/{id}(id=${ingredient.id})}" th:object="${ingredient}" method="post">
+             <input type="hidden" th:field="*{id}" /> <!-- Keep track of the ID -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Ingredient Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                <!-- Display validation errors if any -->
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></div>
+            </div>
+
+            <!-- Add other fields for the ingredient if necessary -->
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="@{/ingredients}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

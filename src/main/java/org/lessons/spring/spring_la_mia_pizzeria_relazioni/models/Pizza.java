@@ -14,23 +14,25 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
-@Entity 
-@Table(name = "pizzas") 
+@Entity
+@Table(name = "pizzas")
 public class Pizza {
 
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @NotBlank(message = "required")
     @Column(name = "pizza_name")
     @Size(min = 2, max = 15, message = "the name must be of 3 or more characters and max 15 characters")
     private String name;
-
 
     @NotBlank(message = "required")
     @Size(max = 50, message = "description must be less or equals to 50 characters")
@@ -40,15 +42,22 @@ public class Pizza {
     private String image;
 
     @NotNull
-    @Min( value = 0, message = "price can not be less then 0")
+    @Min(value = 0, message = "price can not be less then 0")
     private BigDecimal price = BigDecimal.ZERO;
-
 
     @OneToMany(mappedBy = "pizza", cascade = CascadeType.REMOVE)
     private List<SpecialOffer> specialOffers;
-    
+
+    @ManyToMany
+     @JoinTable( 
+        name = "ingredient_pizza",
+        joinColumns = @JoinColumn(name = "pizza_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+        )
+    private List<Ingredient> ingredients;
+
     // Getter & Setter
-    
+
     public Integer getId() {
         return this.id;
     }
@@ -65,19 +74,19 @@ public class Pizza {
         this.name = name;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getImage(){
+    public String getImage() {
         return this.image;
     }
 
-    public void setImage(String image){
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -92,7 +101,6 @@ public class Pizza {
         this.price = price.setScale(2, RoundingMode.UP);
     }
 
-
     public List<SpecialOffer> getSpecialOffers() {
         return this.specialOffers;
     }
@@ -101,4 +109,11 @@ public class Pizza {
         this.specialOffers = specialOffers;
     }
 
+    public List<Ingredient> getIngredients() {
+        return this.ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
 }

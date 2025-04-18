@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lessons.spring.spring_la_mia_pizzeria_relazioni.models.Pizza;
 import org.lessons.spring.spring_la_mia_pizzeria_relazioni.models.SpecialOffer;
+import org.lessons.spring.spring_la_mia_pizzeria_relazioni.repository.IngredientRepository;
 import org.lessons.spring.spring_la_mia_pizzeria_relazioni.repository.PizzaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepo repo;
+
+    @Autowired
+    private IngredientRepository ingredientRepo;
 
     @GetMapping
     public String index(
@@ -55,14 +59,13 @@ public class PizzaController {
         return "pizzas/details";
     }
 
-    // Per la visualizzazione della pagina di creazione
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredients", ingredientRepo.findAll());
         return "pizzas/create";
     }
 
-    // per il salvataggio del nuovo elemento nel DB
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -70,17 +73,16 @@ public class PizzaController {
         }
 
         repo.save(formPizza);
-        return "redirect:/menu"; // Redirect alla lista delle pizze
+        return "redirect:/menu";
     }
 
-    // Per la visualizzazione della pagina di modifica
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("pizza", repo.findById(id).get());
+        model.addAttribute("ingredients", ingredientRepo.findAll());
         return "pizzas/edit";
     }
 
-    // per il salvataggio delle modifiche nel DB
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {

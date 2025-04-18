@@ -23,7 +23,7 @@ public class SpecialOffer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Size(min= 2, message = "the offer title must be at least of 2 characters")
     @NotBlank

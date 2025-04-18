@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Pizza Detail</title>
     <th:block th:replace="~{fragments/resources :: bootstrap-head}"></th:block>
 </head>
+
 <body>
     <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 
-    <div class="container mt-5">
+    <div class="container my-5">
         <h1 class="text-center mb-4">Pizza Detail 🍕</h1>
 
         <div class="row justify-content-center" th:object="${pizza}">
@@ -16,13 +18,24 @@
                 <div class="card mb-4 shadow-lg border-0">
                     <div class="row g-0">
                         <div class="col-md-6">
-                            <img th:src="@{'/images/pizzas/' + *{image}}" class="img-fluid rounded-start" alt="Pizza image" style="object-fit: cover; height: 100%; max-height: 400px;">
+                            <img th:src="@{'/images/pizzas/' + *{image}}" class="img-fluid rounded-start"
+                                alt="Pizza image" style="object-fit: cover; height: 100%; max-height: 400px;">
                         </div>
                         <div class="col-md-6">
                             <div class="card-body d-flex flex-column justify-content-center p-4">
                                 <h2 class="card-title mb-3 text-center">[[*{name}]]</h2>
                                 <p class="card-text text-muted">[[*{description}]]</p>
                                 <p class="card-text text-primary fs-5"><strong>Price:</strong> € [[*{price}]]</p>
+
+                                <div class="mt-3" th:if="*{ingredients} != null and *{ingredients.size()} > 0">
+                                    <h4 class="text-muted">Ingredients:</h4>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" th:each="ingredient : *{ingredients}"
+                                            th:text="${ingredient.name}">Ingredient Name</li>
+                                    </ul>
+                                </div>
+
+
                                 <div class="text-center mt-4">
                                     <a th:href="@{'/menu'}" class="btn btn-outline-secondary btn-lg">Back to Menu</a>
                                 </div>
@@ -33,23 +46,24 @@
             </div>
         </div>
 
-        <div class="row justify-content-center mt-5">
+        <div class="row justify-content-center mt-3 mb-5">
             <div class="col-lg-8 col-md-10 col-sm-12">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="mb-0">Special Offers 🎁</h3>
-                    <a th:href="@{'/menu/special-offers/create/' + ${pizza.id}}" class="btn btn-success">Create New Offer</a>
+                    <a th:href="@{'/menu/special-offers/create/' + ${pizza.id}}" class="btn btn-success">Create New
+                        Offer</a>
                 </div>
-        
+
                 <div th:if="${#lists.isEmpty(pizza.specialOffers)}" class="alert alert-info">
                     No special offers available for this pizza.
                 </div>
-        
+
                 <div th:each="offer : ${pizza.specialOffers}" class="card mb-3 shadow-sm">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title mb-1" th:text="${offer.title}"></h5>
                             <p class="card-text text-muted mb-0">
-                                <span th:text="'From: ' + ${offer.startDate}"></span> – 
+                                <span th:text="'From: ' + ${offer.startDate}"></span> –
                                 <span th:text="'To: ' + ${offer.endDate}"></span>
                             </p>
                         </div>
@@ -58,9 +72,10 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <th:block th:replace="~{fragments/resources :: bootstrap-scripts}"></th:block>
 </body>
+
 </html>

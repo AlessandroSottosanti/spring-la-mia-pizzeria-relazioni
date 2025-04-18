@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="ingredientDetailModal(ingredient)" class="modal fade" th:id="'detailModal-' + ${ingredient.id}" tabindex="-1" aria-labelledby="ingredientDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ingredientDetailModalLabel">Ingredient Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h4>Name: <span th:text="${ingredient.name}"></span></h4>
+                    <h5>Total Pizzas: <span th:text="${ingredient.pizzas.size()}"></span></h5>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a th:href="@{/ingredients/edit/{id}(id=${ingredient.id})}" class="btn btn-warning">Edit</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
